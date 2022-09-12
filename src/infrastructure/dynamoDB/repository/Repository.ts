@@ -1,5 +1,6 @@
 import dynamoDB from "..";
 import { v4 as uuidv4 } from "uuid";
+import test from "node:test";
 
 const tableName = "users";
 export default abstract class Repository<E> {
@@ -27,10 +28,18 @@ export default abstract class Repository<E> {
     if (!e.id) {
       e.id = uuidv4();
     }
+    e.test = {
+      value: 1,
+      value2: "sad",
+      test2: {
+        test: 3,
+      },
+    };
     const params = {
       TableName: tableName,
       Item: e,
     };
+
     const data = await dynamoDB.put(params).promise();
     return entity;
   }
